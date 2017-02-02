@@ -32,12 +32,13 @@ class SubprocessBackend(MetaMap):
                          unique_acronym_variants=False,
                          prefer_multiple_concepts=False,
                          ignore_stop_phrases=False, compute_all_mappings=False,
-                         restrict_to_semantic_types=None):
+                         restrict_to_semantic_types=None, restrict_to_data_sources=None):
         """ extract_concepts takes a list of sentences and ids(optional)
             then returns a list of Concept objects extracted via
             MetaMap.
 
             Supported Options:
+                Restrict to Data Sources -R <comma-separated-list-of-sources>
                 Restrict to Semantic Types -J <comma-separated-list-of-types>
                 Composite Phrase -Q
                 Word Sense Disambiguation -y
@@ -88,6 +89,8 @@ class SubprocessBackend(MetaMap):
             command = [self.metamap_filename, '-N']
             command.append('-Q')
             command.append(str(composite_phrase))
+            if restrict_to_data_sources is not None and len(restrict_to_data_sources) > 0:
+                command.append('-R ' + ','.join(restrict_to_data_sources))
             if restrict_to_semantic_types is not None and len(restrict_to_semantic_types) > 0:
                 command.append('-J ' + ','.join(restrict_to_semantic_types))
             if word_sense_disambiguation:
