@@ -30,7 +30,7 @@ class ConceptMMI(namedtuple('Concept', FIELD_NAMES_MMI)):
         return '%s(%s)' % (self.__class__.__name__, ', '.join(fields))
 
     def as_mmi(self):
-        return '|'.join([get(field) for field in FIELD_NAMES_MMI])
+        return '|'.join([getattr(self, field, "") for field in FIELD_NAMES_MMI])
 
     @classmethod
     def from_mmi(this_class, line):
@@ -44,7 +44,7 @@ class ConceptAA(namedtuple('Concept', FIELD_NAMES_AA)):
         return '%s(%s)' % (self.__class__.__name__, ', '.join(fields))
 
     def as_mmi(self):
-        return '|'.join([get(field) for field in FIELD_NAMES_AA])
+        return '|'.join([getattr(self, field, "") for field in FIELD_NAMES_AA])
 
     @classmethod
     def from_mmi(this_class, line):
@@ -58,7 +58,7 @@ class ConceptUA(namedtuple('Concept', FIELD_NAMES_UA)):
         return '%s(%s)' % (self.__class__.__name__, ', '.join(fields))
 
     def as_mmi(self):
-        return '|'.join([get(field) for field in FIELD_NAMES_UA])
+        return '|'.join([getattr(self,field,"") for field in FIELD_NAMES_UA])
 
     @classmethod
     def from_mmi(this_class, line):
