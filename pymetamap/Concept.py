@@ -12,14 +12,14 @@
 
 from collections import namedtuple
 
-FIELD_NAMES_MMI = ('index', 'mm', 'score', 'preferred_name', 'cui', 'semtypes',
+FIELD_NAMES_MMI = ('index', 'type', 'score', 'preferred_name', 'cui', 'semtypes',
                'trigger', 'location', 'pos_info', 'tree_codes')
 
-FIELD_NAMES_AA = ('index', 'aa', 'short_form', 'long_form', 'num_tokens_short_form',
+FIELD_NAMES_AA = ('index', 'type', 'short_form', 'long_form', 'num_tokens_short_form',
                   'num_chars_short_form', 'num_tokens_long_form',
                   'num_chars_long_form', 'pos_info')
 
-FIELD_NAMES_UA = ('index', 'ua', 'short_form', 'long_form', 'num_tokens_short_form',
+FIELD_NAMES_UA = ('index', 'type', 'short_form', 'long_form', 'num_tokens_short_form',
                   'num_chars_short_form', 'num_tokens_long_form',
                   'num_chars_long_form', 'pos_info')
 
