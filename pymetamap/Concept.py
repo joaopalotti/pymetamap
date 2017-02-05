@@ -72,7 +72,9 @@ class Corpus(list):
         corpus = this_class()
         for line in stream:
             fields = line.split('|')
-            if fields[1] == 'MMI':
+            if fields[1] == 'MMI' or fields[1] == 'MM':
+                # Adding support to Metamap versions prior to 2014, which changed from MM to MMI.
+                # See https://metamap.nlm.nih.gov/Docs/MMI_Output_2016.pdf
                 corpus.append(ConceptMMI.from_mmi(line))
             elif fields[1] == 'AA':
                 corpus.append(ConceptAA.from_mmi(line))
