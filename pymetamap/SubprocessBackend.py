@@ -131,7 +131,6 @@ class SubprocessBackend(MetaMap):
                         error = output.rstrip()
 
                 except subprocess.TimeoutExpired:
-                    print("---------------------------- ERROR: IT TOOK MMORE THAN ONE SECOND for cmd: %s" % (command))
                     os.killpg(metamap_process.pid, subprocess.signal.SIGINT) # send signal to the process group
                     output = metamap_process.communicate()[0]
 
