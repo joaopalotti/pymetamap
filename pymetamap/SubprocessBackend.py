@@ -32,7 +32,8 @@ class SubprocessBackend(MetaMap):
                          unique_acronym_variants=False,
                          prefer_multiple_concepts=False,
                          ignore_stop_phrases=False, compute_all_mappings=False,
-                         restrict_to_semantic_types=None, restrict_to_data_sources=None):
+                         restrict_to_semantic_types=None, restrict_to_data_sources=None,
+                         timeout=300):
         """ extract_concepts takes a list of sentences and ids(optional)
             then returns a list of Concept objects extracted via
             MetaMap.
@@ -121,12 +122,18 @@ class SubprocessBackend(MetaMap):
             command.append(input_file.name)
             command.append(output_file.name)
 
-            metamap_process = subprocess.Popen(command, stdout=subprocess.PIPE)
-            while metamap_process.poll() is None:
-                stdout = str(metamap_process.stdout.readline())
-                if 'ERROR' in stdout:
-                    metamap_process.terminate()
-                    error = stdout.rstrip()
+            with subprocess.Popen(command, stdout=subprocess.PIPE, preexec_fn=os.setsid) as metamap_process:
+                try:
+                    output = metamap_process.communicate(timeout=timeout)
+
+                    if 'ERROR' in output:
+                        metamap_process.terminate()
+                        error = output.rstrip()
+
+                except subprocess.TimeoutExpired:
+                    print("---------------------------- ERROR: IT TOOK MMORE THAN ONE SECOND for cmd: %s" % (command))
+                    os.killpg(metamap_process.pid, subprocess.signal.SIGINT) # send signal to the process group
+                    output = metamap_process.communicate()[0]
 
             output = str(output_file.read())
         finally:
